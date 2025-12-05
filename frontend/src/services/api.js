@@ -1,5 +1,5 @@
 /**
- * API Service for Quantum Authentication
+ * API Service for Quantum Authentication - Enhanced
  */
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
@@ -66,6 +66,29 @@ class ApiService {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+  }
+
+  async deleteUser(token) {
+    return await this.request('/user/delete', {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  async getAllUsers() {
+    return await this.request('/admin/users');
+  }
+
+  async getSecurityMetrics() {
+    return await this.request('/security/metrics');
+  }
+
+  async testQuantumSecurity() {
+    return await this.request('/security/test-quantum', {
+      method: 'POST',
     });
   }
 

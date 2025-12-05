@@ -3,7 +3,7 @@ import secrets
 import requests
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC  # Fixed: Changed from PBKDF2 to PBKDF2HMAC
 import logging
 
 # Try to import liboqs for PQC
@@ -46,8 +46,8 @@ class QuantumCrypto:
         # Use quantum random numbers if possible
         random_bytes = self.get_quantum_random_bytes(32)
         
-        # Derive key using PBKDF2
-        kdf = PBKDF2(
+        # Derive key using PBKDF2HMAC
+        kdf = PBKDF2HMAC(  # Fixed: Changed from PBKDF2 to PBKDF2HMAC
             algorithm=hashes.SHA256(),
             length=32,
             salt=b'quantum_auth_salt_v1',  # In production, use unique salt
@@ -129,7 +129,7 @@ class QuantumCrypto:
             ciphertext_kem, shared_secret = self.kem.encap_secret(public_key)
             
             # Use shared secret to derive encryption key
-            kdf = PBKDF2(
+            kdf = PBKDF2HMAC(  # Fixed: Changed from PBKDF2 to PBKDF2HMAC
                 algorithm=hashes.SHA256(),
                 length=32,
                 salt=b'pqc_salt',
